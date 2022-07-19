@@ -31,3 +31,13 @@ clearButton.addEventListener('click', function() {
   var outputValue = document.getElementById('output');
   outputValue.innerHTML = '';
 });
+
+/* Change background image */
+var background = document.createElement('img');
+background.src = 'DALL·E 2022-07-19 15.33.16 - a supermassive blackhole engulfing the earth, vaporware.png';
+background.style.position = 'fixed';
+background.style.top = '0';
+background.style.left = '0';
+background.style.width = '100%';
+background.style.height = '100%';
+document.body.appendChild(background);
