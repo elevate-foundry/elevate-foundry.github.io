@@ -1,1 +1,37 @@
-
+<html>
+  <header>
+    <body>
+      /* create text box for first_name and last_name, with submit button that displays data below with row number index. */
+      var firstName = document.createElement('input');
+      firstName.setAttribute('type', 'text');
+      firstName.setAttribute('id', 'first_name');
+      firstName.setAttribute('placeholder', 'First Name');
+      document.body.appendChild(firstName);
+      var lastName = document.createElement('input');
+      lastName.setAttribute('type', 'text');
+      lastName.setAttribute('id', 'last_name');
+      lastName.setAttribute('placeholder', 'Last Name');
+      document.body.appendChild(lastName);
+      var submitButton = document.createElement('button');
+      submitButton.innerHTML = 'Submit';
+      document.body.appendChild(submitButton);
+      var table = document.createElement('table');
+      document.body.appendChild(table);
+      var rowIndex = 0;
+      submitButton.addEventListener('click', function() {
+        var row = document.createElement('tr');
+        var firstNameCell = document.createElement('td');
+        firstNameCell.innerHTML = firstName.value;
+        row.appendChild(firstNameCell);
+        var lastNameCell = document.createElement('td');
+        lastNameCell.innerHTML = lastName.value;
+        row.appendChild(lastNameCell);
+        var indexCell = document.createElement('td');
+        indexCell.innerHTML = rowIndex;
+        row.appendChild(indexCell);
+        table.appendChild(row);
+        rowIndex++;
+      });      
+    </body>
+  </header>
+</html>
