@@ -32,3 +32,23 @@ clearButton.addEventListener('click', function() {
   var outputValue = document.getElementById('output');
   outputValue.innerHTML = '';
 });
+
+/* Create popup window when user visits website that states "We collect device and behavioral biometric information. Please accept to continue.", with an accept and reject button. Accept button keeps user on website, while reject button redirects to https://google.com. */
+var popup = document.createElement('div');
+popup.innerHTML = 'We collect device and behavioral biometric information. Please accept to continue.';
+document.body.appendChild(popup);
+var accept = document.createElement('button');
+accept.innerHTML = 'Accept';
+document.body.appendChild(accept);
+var reject = document.createElement('button');
+reject.innerHTML = 'Reject';
+document.body.appendChild(reject);
+/* Accept button keeps user on website, while reject button redirects to https://google.com. */
+accept.onclick = function() {
+  document.body.removeChild(popup);
+  document.body.removeChild(accept);
+  document.body.removeChild(reject);
+}
+reject.onclick = function() {
+  window.location.href = 'https://google.com';
+}
