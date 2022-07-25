@@ -1,54 +1,54 @@
-/* Create popup window when user visits website that states "We collect device and behavioral biometric information. Please accept to continue.", with an accept and reject button. Accept button keeps user on website, while reject button redirects to https://google.com. */
-var popup = document.createElement('div');
-popup.innerHTML = 'We collect device and behavioral biometric information. Please accept to continue.';
-document.body.appendChild(popup);
-var accept = document.createElement('button');
-accept.innerHTML = 'Accept';
-document.body.appendChild(accept);
-var reject = document.createElement('button');
-reject.innerHTML = 'Reject';
-document.body.appendChild(reject);
-/* Accept button keeps user on website, while reject button redirects to https://google.com. */
-accept.onclick = function() {
-  document.body.removeChild(popup);
-  document.body.removeChild(accept);
-  document.body.removeChild(reject);
-}
-reject.onclick = function() {
-  window.location.href = 'https://google.com';
-}
-
-/* create text box for first_name and last_name, with submit button that displays data below with row number index before output. */
-var firstName = document.createElement('input');
-firstName.setAttribute('type', 'text');
-firstName.setAttribute('id', 'first_name');
-firstName.setAttribute('placeholder', 'First Name');
-document.body.appendChild(firstName);
-var lastName = document.createElement('input');
-lastName.setAttribute('type', 'text');
-lastName.setAttribute('id', 'last_name');
-lastName.setAttribute('placeholder', 'Last Name');
-document.body.appendChild(lastName);
-var submitButton = document.createElement('button');
-submitButton.innerHTML = 'Submit';
-document.body.appendChild(submitButton);
-var output = document.createElement('div');
-output.setAttribute('id', 'output');
-document.body.appendChild(output);
+var first_name = document.createElement('input');
+first_name.setAttribute('type', 'text');
+first_name.setAttribute('id', 'first_name');
+first_name.setAttribute('placeholder', 'First Name');
+document.body.appendChild(first_name);
+var last_name = document.createElement('input');
+last_name.setAttribute('type', 'text');
+last_name.setAttribute('id', 'last_name');
+last_name.setAttribute('placeholder', 'Last Name');
+document.body.appendChild(last_name);
+var address = document.createElement('input');
+address.setAttribute('type', 'text');
+address.setAttribute('id', 'address');
+address.setAttribute('placeholder', 'Address');
+document.body.appendChild(address);
+var submit = document.createElement('button');
+submit.setAttribute('type', 'button');
+submit.setAttribute('id', 'submit');
+submit.innerHTML = 'Submit';
+document.body.appendChild(submit);
+var table = document.createElement('table');
+table.setAttribute('id', 'table');
+document.body.appendChild(table);
+var row = document.createElement('tr');
+row.setAttribute('id', 'row');
+document.getElementById('table').appendChild(row);
+var first_name_header = document.createElement('th');
+first_name_header.innerHTML = 'First Name';
+document.getElementById('row').appendChild(first_name_header);
+var last_name_header = document.createElement('th');
+last_name_header.innerHTML = 'Last Name';
+document.getElementById('row').appendChild(last_name_header);
+var address_header = document.createElement('th');
+address_header.innerHTML = 'Address';
+document.getElementById('row').appendChild(address_header);
 var index = 0;
-submitButton.addEventListener('click', function() {
-  var firstNameValue = document.getElementById('first_name').value;
-  var lastNameValue = document.getElementById('last_name').value;
-  var outputValue = document.getElementById('output');
-  outputValue.innerHTML += index + ': ' + firstNameValue + ' ' + lastNameValue + '<br>';
+document.getElementById('submit').onclick = function() {
+  var first_name_value = document.getElementById('first_name').value;
+  var last_name_value = document.getElementById('last_name').value;
+  var address_value = document.getElementById('address').value;
+  var row = document.createElement('tr');
+  row.setAttribute('id', 'row' + index);
+  document.getElementById('table').appendChild(row);
+  var first_name_data = document.createElement('td');
+  first_name_data.innerHTML = first_name_value;
+  document.getElementById('row' + index).appendChild(first_name_data);
+  var last_name_data = document.createElement('td');
+  last_name_data.innerHTML = last_name_value;
+  document.getElementById('row' + index).appendChild(last_name_data);
+  var address_data = document.createElement('td');
+  address_data.innerHTML = address_value;
+  document.getElementById('row' + index).appendChild(address_data);
   index++;
-});
-
-/* Add clear button to clear output */
-var clearButton = document.createElement('button');
-clearButton.innerHTML = 'Clear';
-document.body.appendChild(clearButton);
-clearButton.addEventListener('click', function() {
-  var outputValue = document.getElementById('output');
-  outputValue.innerHTML = '';
-});
+};
