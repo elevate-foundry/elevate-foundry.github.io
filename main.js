@@ -5,7 +5,7 @@ document.body.appendChild(button);
 button.addEventListener('click', function() {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', 'https://realquickapp.stradum-dev.io/api/v1/transactions', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
+//   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
       var response = document.createElement('div');
