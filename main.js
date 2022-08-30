@@ -1,34 +1,33 @@
-var full_name = document.createElement('input');
-full_name.setAttribute('type', 'text');
-full_name.setAttribute('id', 'full_name');
-full_name.setAttribute('placeholder', 'Full Name');
-document.body.appendChild(full_name);
-var phone = document.createElement('input');
-phone.setAttribute('type', 'text');
-phone.setAttribute('id', 'phone');
-phone.setAttribute('placeholder', 'Phone');
-document.body.appendChild(phone);
-var email = document.createElement('input');
-email.setAttribute('type', 'text');
-email.setAttribute('id', 'email');
-email.setAttribute('placeholder', 'Email');
-document.body.appendChild(email);
-var submit = document.createElement('button');
-submit.setAttribute('type', 'button');
-submit.setAttribute('id', 'submit');
-submit.innerHTML = 'Submit';
-document.body.appendChild(submit);
-var json = document.createElement('div');
-json.setAttribute('id', 'json');
-document.body.appendChild(json);
-submit.onclick = function() {
-  var full_name_value = document.getElementById('full_name').value;
-  var phone_value = document.getElementById('phone').value;
-  var email_value = document.getElementById('email').value;
-  var json_value = {
-    full_name: full_name_value,
-    phone: phone_value,
-    email: email_value
+/* Create "Generate identity verification link" button that on submit makes an API post to url "https://realquickapp.stradum-dev.io/api/v1/transactions" and if transaction is successful, displays the JSON response below the button. */
+var button = document.createElement('button');
+button.innerHTML = 'Generate identity verification link';
+document.body.appendChild(button);
+button.addEventListener('click', function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://realquickapp.stradum-dev.io/api/v1/transactions', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      var response = document.createElement('div');
+      response.innerHTML = xhr.responseText;
+      document.body.appendChild(response);
+    }
   };
-  document.getElementById('json').innerHTML = JSON.stringify(json_value);
-};
+//   xhr.send(JSON.stringify({
+//     "transaction": {
+//       "transaction_type": "identity_verification",
+//       "transaction_data": {
+//         "first_name": "John",
+//         "last_name": "Doe",
+//         "email": "john.doe@example.com",
+//         "phone": "555-555-5555",
+//         "dob": "01/01/1980",
+//         "ssn": "123-45-6789",
+//         "address": "123 Main St",
+//         "city": "New York",
+//         "state": "NY",
+//         "zip": "10001"
+//       }
+//     }
+  }));
+});
