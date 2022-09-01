@@ -1,29 +1,22 @@
-// Get the button and container from HTML:
-const button = document.getElementById("theButton")
-const data = document.getElementById("info")
-// Create an event listener on the button element:
-button.onclick= function(){
-    
-    // Get the receiver endpoint from Python using fetch:
-    fetch("http://127.0.0.1:5000/receiver", 
-        {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            },
-        // Strigify the payload into JSON:
-        body:JSON.stringify(cars)}).then(res=>{
-                if(res.ok){
-                    return res.json()
-                }else{
-                    alert("something is wrong")
-                }
-            }).then(jsonResponse=>{
-                
-                // Iterate through the data with Map and write your rendering logic:
-                jsonResponse.map(Main=>            
-       Main.make==="Porsche"? data.innerHTML +="<p>"+ Main.make+" "+" is a good product":
-      data.innerHTML +="<p>"+ Main.make+" "+"is an average product" ) 
-} 
-).catch((err) => console.error(err)); } 
+/* Create 'Generate magic link' button that upon click makes an API post request to 'https://realquickapp.stradum-dev.io/api/v1/transactions' and displays the response below button. */
+var generateMagicLink = document.createElement('button');
+generateMagicLink.innerHTML = 'Generate magic link';
+document.body.appendChild(generateMagicLink);
+var response = document.createElement('div');
+document.body.appendChild(response);
+generateMagicLink.addEventListener('click', function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', 'https://realquickapp.stradum-dev.io/api/v1/transactions', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      response.innerHTML = xhr.responseText;
+    }
+  }
+  xhr.send(JSON.stringify({
+    "amount": "100",
+    "currency": "USD",
+    "description": "Test transaction",
+    "email": "test@test.com"
+  }));
+});
