@@ -1,6 +1,6 @@
 /* Create 'Generate magic link' button that upon click makes an API post request to 'https://realquickapp.stradum-dev.io/api/v1/transactions' and displays the response below button. */
 var generateMagicLink = document.createElement('button');
-btn.style.color='red';
+generateMagicLink.style.color='red';
 generateMagicLink.innerHTML = 'Generate magic link';
 document.body.appendChild(generateMagicLink);
 var response = document.createElement('div');
