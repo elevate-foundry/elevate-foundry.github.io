@@ -1,6 +1,6 @@
 // Configure the AWS SDK
 AWS.config.update({
-  region: 'your-region', // Set your AWS region
+  region: 'us-east-1', // Set your AWS region
   credentials: new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-1:178270b0-2cbf-4913-860b-12784938fe7c', // Set your Cognito Identity Pool ID
   }),
