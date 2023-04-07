@@ -8,7 +8,7 @@ gapi.load('client', initGCSClient);
 
 async function initGCSClient() {
   // Replace with the path to your JSON key file
-  const keyFile = '/path/to/your-key-file.json';
+  const keyFile = 'elevate-foundry-280fa96289f8.json';
 
   // Load the JSON key file
   const response = await fetch(keyFile);
@@ -38,7 +38,7 @@ function uploadToGCS() {
   const file = csvFileInput.files[0];
 
   if (file && file.type === 'text/csv') {
-    const bucketName = 'your-bucket-name';
+    const bucketName = 'elevate-foundry';
     const objectName = encodeURIComponent(file.name);
 
     // Read the file as a data URL
