@@ -13,7 +13,7 @@ var response = document.createElement('div');
 document.body.appendChild(response);
 generateMagicLink.addEventListener('click', function() {
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'https://realquickapp.stradum-dev.io/api/v1/transactions', true);
+  xhr.open('POST', 'https://app.realquick.io/test/verify', true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
