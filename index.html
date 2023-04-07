@@ -23,11 +23,12 @@
   </style>
 </head>
 <body>
-  <input type="file" id="csvFile" accept=".csv">
-  <button id="uploadButton">Upload to GCS</button>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" id="csvFile" name="csvFile" accept=".csv">
+    <button type="submit">Upload to GCS</button>
+  </form>
   <div class="spinner" id="spinner"></div>
   <div id="message"></div>
-  <script src="https://apis.google.com/js/api.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
