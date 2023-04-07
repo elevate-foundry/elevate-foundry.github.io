@@ -6,7 +6,7 @@ const {Storage} = require('@google-cloud/storage');
 const app = express();
 const upload = multer({storage: multer.memoryStorage()});
 const storage = new Storage({
-  projectId: '<your_project_id>',
+  projectId: 'elevate-foundry',
   credentials: JSON.parse(process.env.GCS_KEY_FILE_CONTENTS),
 });
 
