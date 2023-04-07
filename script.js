@@ -1,55 +1,70 @@
-// Configure the AWS SDK
-AWS.config.update({
-  region: 'us-east-1', // Set your AWS region
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-1:178270b0-2cbf-4913-860b-12784938fe7c', // Set your Cognito Identity Pool ID
-  }),
-});
-
-// Create an S3 client
-const s3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  params: { Bucket: 'elevate-foundry' }, // Set your S3 bucket name
-});
-
-// Get DOM elements
 const csvFileInput = document.getElementById('csvFile');
 const uploadButton = document.getElementById('uploadButton');
-const spinner = document.getElementById('spinner');
-const message = document.getElementById('message');
 
-// Add a click event listener to the upload button
-uploadButton.addEventListener('click', function () {
+// Load the Google Cloud Storage client library
+gapi.load('client', initGCSClient);
+
+async function initGCSClient() {
+  // Replace with the path to your JSON key file
+  const keyFile = 'elevate-foundry-280fa96289f8.json';
+
+  // Load the JSON key file
+  const response = await fetch(keyFile);
+  const serviceAccount = await response.json();
+
+  // Initialize the Google Cloud Storage client
+  gapi.client.init({
+    'apiKey': serviceAccount.private_key_id,
+    'clientId': serviceAccount.client_id,
+    'scope': 'https://www.googleapis.com/auth/devstorage.read_write',
+  }).then(() => {
+    // Sign in with the service account
+    return gapi.auth.authorize({
+      'client_id': serviceAccount.client_id,
+      'scope': 'https://www.googleapis.com/auth/devstorage.read_write',
+      'immediate': true,
+    });
+  }).then(() => {
+    console.log('GCS client initialized');
+    uploadButton.addEventListener('click', uploadToGCS);
+  }, (error) => {
+    console.error('Error initializing GCS client:', error);
+  });
+}
+
+function uploadToGCS() {
   const file = csvFileInput.files[0];
 
   if (file && file.type === 'text/csv') {
-    // Show the spinner
-    spinner.style.display = 'block';
-    message.textContent = '';
+    const bucketName = 'your-bucket-name';
+    const objectName = encodeURIComponent(file.name);
 
-    // Upload the file to the S3 bucket
-    s3.upload(
-      {
-        Key: file.name,
-        Body: file,
-        ACL: 'public-read', // Set the access level of the uploaded file, adjust as needed
-      },
-      function (err, data) {
-        // Hide the spinner
-        spinner.style.display = 'none';
+    // Read the file as a data URL
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const fileData = event.target.result.split(',')[1];
 
-        if (err) {
-          console.error('Error uploading the CSV file:', err);
-          message.textContent = 'Error uploading the CSV file: ' + err.code;
-          message.style.color = 'red';
-        } else {
-          console.log('Successfully uploaded the CSV file:', data);
-          message.textContent = 'Successfully uploaded the CSV file.';
-          message.style.color = 'green';
-        }
-      }
-    );
+      // Upload the file to Google Cloud Storage
+      gapi.client.request({
+        'path': `https://storage.googleapis.com/upload/storage/v1/b/${bucketName}/o`,
+        'method': 'POST',
+        'params': {
+          'uploadType': 'media',
+          'name': objectName,
+        },
+        'headers': {
+          'Content-Type': file.type,
+          'Content-Length': file.size,
+        },
+        'body': fileData,
+      }).then((response) => {
+        console.log('Successfully uploaded the CSV file:', response);
+      }, (error) => {
+        console.error('Error uploading the CSV file:', error);
+      });
+    };
+    reader.readAsDataURL(file);
   } else {
     alert('Please select a valid CSV file.');
   }
-});
+}
