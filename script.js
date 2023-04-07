@@ -1,46 +1,42 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const dropzone = document.getElementById('dropzone');
-
-  dropzone.addEventListener('dragover', function (event) {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'copy';
-    this.style.backgroundColor = '#f0f0f0';
-  });
-
-  dropzone.addEventListener('dragleave', function (event) {
-    this.style.backgroundColor = '';
-  });
-
-  dropzone.addEventListener('drop', function (event) {
-    event.preventDefault();
-    this.style.backgroundColor = '';
-
-    const file = event.dataTransfer.files[0];
-
-    if (file.type === 'text/csv') {
-      handleCSVFile(file);
-    } else {
-      alert('Please upload a valid CSV file.');
-    }
-  });
+// Configure the AWS SDK
+AWS.config.update({
+  region: 'your-region', // Set your AWS region
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-1:178270b0-2cbf-4913-860b-12784938fe7c', // Set your Cognito Identity Pool ID
+  }),
 });
 
-function handleCSVFile(file) {
-  const reader = new FileReader();
+// Create an S3 client
+const s3 = new AWS.S3({
+  apiVersion: '2006-03-01',
+  params: { Bucket: 'elevate-foundry' }, // Set your S3 bucket name
+});
 
-  reader.onload = function (event) {
-    const csvData = event.target.result;
-    processData(csvData);
-  };
+// Get DOM elements
+const csvFileInput = document.getElementById('csvFile');
+const uploadButton = document.getElementById('uploadButton');
 
-  reader.onerror = function () {
-    alert('An error occurred while reading the file.');
-  };
+// Add a click event listener to the upload button
+uploadButton.addEventListener('click', function () {
+  const file = csvFileInput.files[0];
 
-  reader.readAsText(file);
-}
-
-function processData(csvData) {
-  // Process your CSV data here
-  console.log(csvData);
-}
+  if (file && file.type === 'text/csv') {
+    // Upload the file to the S3 bucket
+    s3.upload(
+      {
+        Key: file.name,
+        Body: file,
+        ACL: 'public-read', // Set the access level of the uploaded file, adjust as needed
+      },
+      function (err, data) {
+        if (err) {
+          console.error('Error uploading the CSV file:', err);
+        } else {
+          console.log('Successfully uploaded the CSV file:', data);
+        }
+      }
+    );
+  } else {
+    alert('Please select a valid CSV file.');
+  }
+});
