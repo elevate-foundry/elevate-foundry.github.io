@@ -3,21 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSV Upload Flow</title>
-  <style>
-    #dropzone {
-      border: 2px dashed #ccc;
-      width: 300px;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 50px auto;
-    }
-  </style>
+  <title>CSV Upload to S3</title>
 </head>
 <body>
-  <div id="dropzone">Drag and drop your CSV file here</div>
+  <input type="file" id="csvFile" accept=".csv">
+  <button id="uploadButton">Upload to S3</button>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.21.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
