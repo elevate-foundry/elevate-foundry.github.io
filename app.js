@@ -10,7 +10,7 @@ const storage = new Storage({
   credentials: JSON.parse(process.env.GCS_KEY_FILE_CONTENTS),
 });
 
-const bucketName = '<your-bucket-name>';
+const bucketName = 'elevate-foundry';
 
 app.use(express.static(__dirname));
 
